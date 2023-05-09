@@ -14,6 +14,13 @@
     "name": "Tobie Morgan Hitchcock",
     "url": "https://abcum.com"
   },
+  "scripts": {
+    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*",
+    "test": "npm-run-all test:*",
+    "lint:js": "eslint .",
+    "test:ember": "ember test",
+    "test:ember-compatibility": "ember try:each"
+  },
   "dependencies": {
     "@ascua/config": "file:../config",
     "@ascua/context": "file:../context",
@@ -23,8 +30,9 @@
     "@ascua/service": "file:../service",
     "broccoli-persistent-filter": "^3.1.2",
     "ember-cli-babel": "^7.26.6",
-    "surreal.js": "^0.4.20",
-    "ws": "^8.5.0"
+    "surrealdb.js": "^0.6.0",
+    "ws": "^8.5.0",
+    "mock-socket": "^9.0.0"
   },
   "fastbootDependencies": [
     "ws"
