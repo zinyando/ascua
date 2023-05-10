@@ -1,53 +1,51 @@
-'use strict';
+"use strict";
 
-const Filter = require('broccoli-persistent-filter');
+const Filter = require("broccoli-persistent-filter");
 
 class SQLFilter extends Filter {
-	constructor(inputNode, options) {
-		super(inputNode, options);
-		this.extensions = ['sql'];
-		this.targetExtension = 'js';
-	}
+  constructor(inputNode, options) {
+    super(inputNode, options);
+    this.extensions = ["sql"];
+    this.targetExtension = "js";
+  }
 
-	processString(source) {
-		return 'export default ' + JSON.stringify(source) + ';';
-	}
+  processString(source) {
+    return "export default " + JSON.stringify(source) + ";";
+  }
 }
 
 module.exports = {
-	name: require('./package').name,
+  name: require("./package").name,
 
-	included(app) {
-		this._super.included.apply(this, ...arguments);
+  included(app) {
+    this._super.included.apply(this, ...arguments);
 
-		// app.import('node_modules/surrealdb.js/dist/main.js');
+    app.import("vendor/diffmatchpatch.js");
 
-		app.import('vendor/diffmatchpatch.js');
+    app.import("vendor/surreal.js", {
+      exports: { surreal: ["default"] },
+    });
 
-		app.import('vendor/surreal.js', {
-			exports: { surreal: ['default'] },
-		});
+    app.import("vendor/dmp.js", {
+      exports: { dmp: ["default"] },
+    });
+  },
 
-		app.import('vendor/dmp.js', {
-			exports: { dmp: ['default'] },
-		});
-	},
+  setupPreprocessorRegistry(type, registry) {
+    if (type === "parent") {
+      registry.add("js", {
+        name: "surreal",
+        ext: ["sql"],
+        toTree(tree) {
+          return new SQLFilter(tree);
+        },
+      });
+    }
+  },
 
-	setupPreprocessorRegistry(type, registry) {
-		if (type === 'parent') {
-			registry.add('js', {
-				name: 'surreal',
-				ext: ['sql'],
-				toTree(tree) {
-					return new SQLFilter(tree);
-				},
-			});
-		}
-	},
-
-	contentFor(type) {
-		if (type === 'head') {
-			return '<link rel="dns-prefetch" href="//surreal.io/">';
-		}
-	},
+  contentFor(type) {
+    if (type === "head") {
+      return '<link rel="dns-prefetch" href="//surreal.io/">';
+    }
+  },
 };
