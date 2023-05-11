@@ -34,9 +34,6 @@
 /packages/*/bower_components/
 /packages/*/node_modules/
 
-# application dependencies
-/application/node_modules/
-
 # packages npm files
 /packages/*/package-lock.json
 /packages/*/npm-debug.log*

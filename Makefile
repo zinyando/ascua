@@ -20,27 +20,9 @@ default:
 clean:
 	@echo "Clean..."
 	find packages -mindepth 2 -maxdepth 2 -type f -name '.bowerrc' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.editorconfig' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.ember-cli' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.ember-cli.js' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.eslintignore' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.eslintrc.js' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.gitignore' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.gitkeep' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.template-lintrc.js' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.travis.yml' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name '.watchmanconfig' -delete
 	find packages -mindepth 2 -maxdepth 2 -type f -name 'bower.json' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name 'ember-cli-build.js' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name 'jsconfig.json' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name 'package-lock.json' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name 'README.md' -delete
-	find packages -mindepth 2 -maxdepth 2 -type f -name 'testem.js' -delete
 	find packages -mindepth 2 -maxdepth 2 -type f -name 'yarn.lock' -delete
-	find packages -mindepth 2 -maxdepth 2 -type d -name '.git' -exec rm -rf "{}" \;
-	find packages -mindepth 2 -maxdepth 2 -type d -name 'config' -exec rm -rf "{}" \;
 	find packages -mindepth 2 -maxdepth 2 -type d -name 'dist' -exec rm -rf "{}" \;
-	find packages -mindepth 2 -maxdepth 2 -type d -name 'tests' -exec rm -rf "{}" \;
 	find packages -mindepth 2 -maxdepth 2 -type d -name 'tmp' -exec rm -rf "{}" \;
 	rm -rf node_modules
 	npx lerna clean --yes
@@ -70,3 +52,8 @@ deploy:
 	@echo "Deploy..."
 	rm -rf /tmp/ascua-deploy
 	ember deploy production
+
+.PHONY: test
+test:
+	@echo "Test..."
+	npx lerna run test
